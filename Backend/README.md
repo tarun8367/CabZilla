@@ -7,7 +7,7 @@ The `/users/register` endpoint allows users to register a new account by providi
 
 ### HTTP Endpoint
 
-`POST`
+`POST /users/register`
 
 ### Status Codes
 
@@ -58,8 +58,6 @@ If the registration is successful, the response will contain a JSON object with 
 }
 ```
 
-
-
 # User Login Endpoint
 =====================
 
@@ -69,7 +67,7 @@ The `/users/login` endpoint allows users to log in to their account by providing
 
 ### HTTP Endpoint
 
-`POST`
+`POST /users/login`
 
 ### Status Codes
 
@@ -112,3 +110,69 @@ If the login is successful, the response will contain a JSON object with the fol
   }
 }
 ```
+
+# User Profile Endpoint
+=====================
+
+### Description
+
+The `/users/profile` endpoint allows users to retrieve their profile information.
+
+### HTTP Endpoint
+
+`GET /users/profile`
+
+### Status Codes
+
+* `200 OK`: Profile information retrieved successfully
+* `401 Unauthorized`: User is not authenticated
+
+### Response
+
+If the request is successful, the response will contain a JSON object with the following properties:
+
+* `user`: An object containing the user's data
+
+```json
+{
+  "user": {
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "johndoe@example.com",
+    "password": "hashed_password" // Note: The actual password is not returned, only a hashed version
+  }
+}
+```
+
+# # User Logout Endpoint
+=====================
+
+### Description
+
+The `/users/logout` endpoint allows users to log out of their account.
+
+### HTTP Endpoint
+
+`GET /users/logout`
+
+### Status Codes
+
+* `200 OK`: User logged out successfully
+* `401 Unauthorized`: User is not authenticated
+
+### Request Body
+
+No request body is required for this endpoint.
+
+### Response
+
+If the logout is successful, the response will contain a JSON object with the following properties:
+
+* `message`: A success message indicating that the user has been logged out
+
+```json
+{
+  "message": "Logout successful"
+}
