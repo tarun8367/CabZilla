@@ -151,7 +151,7 @@ If the request is successful, the response will contain a JSON object with the f
 
 ### Description
 
-The `/users/logout` endpoint allows users to log out of their account.
+The `/users/logout` endpoint allows to Logout the current user and blacklist the token provided in cookie headers.
 
 ### HTTP Endpoint
 
@@ -164,7 +164,7 @@ The `/users/logout` endpoint allows users to log out of their account.
 
 ### Request Body
 
-No request body is required for this endpoint.
+Requires a valid JWT token in the Authorization header or cookie.
 
 ### Response
 
