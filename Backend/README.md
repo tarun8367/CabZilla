@@ -140,8 +140,7 @@ If the request is successful, the response will contain a JSON object with the f
       "firstname": "John",
       "lastname": "Doe"
     },
-    "email": "johndoe@example.com",
-    "password": "hashed_password" // Note: The actual password is not returned, only a hashed version
+    "email": "johndoe@example.com"
   }
 }
 ```
@@ -246,6 +245,113 @@ If the registration is successful, the response will contain a JSON object with 
       "firstname": "John",
       "lastname": "Doe"
     },
+    "email": "johndoe@example.com",
+    "password": "hashed_password" // Note: The actual password is not returned, only a hashed version
+  },
+  "status": "active",
+  "vehicle": {
+    "color": "black",
+    "plate": "UP 85 AQ 0001",
+    "capacity": 3,
+    "vehicleType": "car"
+  }
+}
+```
+
+
+# Captain Login Endpoint
+=====================
+
+### Description
+
+The `/captains/login` endpoint allows captains to log in to their account by providing their email and password.
+
+### HTTP Endpoint
+
+`POST /captains/login`
+
+### Status Codes
+
+* `200 OK`: Captain logged in successfully
+* `401 Unauthorized`: Invalid email or password
+
+### Request Body
+
+The request body should contain the following fields:
+
+* `email`: The captain's email address (required)
+* `password`: The captain's password (required)
+
+### Example Request
+
+```json
+{
+  "email": "johndoe@example.com",
+  "password": "mysecretpassword"
+}
+```
+
+### Response
+
+If the login is successful, the response will contain a JSON object with the following properties:
+
+* `token`: A JSON Web Token (JWT) that can be used for authentication
+* `captain`: An object containing the newly created captain's data
+* `status`: The captain's status (active{Default})
+* `vehicle`: An object containing the vehicle's information
+
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaGFuIERvZSIsImVtYWlsIjoiam9obmRvZUBleGFtcGxlLmNvbSIsImlhdCI6MTUxNjIzOTAyMn0.k4Zb6Q5u6Q5u6Q5u6Q5u6Q5u6Q5u6Q5u6Q",
+  "captain": {
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "johndoe@example.com",
+    "password": "hashed_password" // Note: The actual password is not returned, only a hashed version
+  },
+  "status": "active",
+  "vehicle": {
+    "color": "black",
+    "plate": "UP 85 AQ 0001",
+    "capacity": 3,
+    "vehicleType": "car"
+  }
+}
+```
+
+# Captain Profile Endpoint
+=====================
+
+### Description
+
+The `/captains/profile` endpoint allows captains to retrieve their profile information.
+
+### HTTP Endpoint
+
+`GET /captains/profile`
+
+### Status Codes
+
+* `200 OK`: Profile information retrieved successfully
+* `401 Unauthorized`: Captain is not authenticated
+
+### Response
+
+If the request is successful, the response will contain a JSON object with the following properties:
+
+* `captain`: An object containing the captain's data
+* `status`: The captain's status (active)
+* `vehicle`: An object containing the vehicle's information
+
+```json
+{
+  "captain": {
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
     "email": "johndoe@example.com"
   },
   "status": "active",
@@ -255,5 +361,37 @@ If the registration is successful, the response will contain a JSON object with 
     "capacity": 3,
     "vehicleType": "car"
   }
+}
+```
+
+# Captain Logout Endpoint
+=====================
+
+### Description
+
+The `/captains/logout` endpoint allows to Logout the current user and blacklist the token provided in cookie headers.
+
+### HTTP Endpoint
+
+`GET /captains/logout`
+
+### Status Codes
+
+* `200 OK`: Captain logged out successfully
+* `401 Unauthorized`: Captain is not authenticated
+
+### Request Body
+
+Requires a valid JWT token in the Authorization header or cookie.
+
+### Response
+
+If the logout is successful, the response will contain a JSON object with the following properties:
+
+* `message`: A success message indicating that the captain has been logged out
+
+```json
+{
+  "message": "Logout successful"
 }
 ```
