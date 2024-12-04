@@ -235,7 +235,7 @@ If the registration is successful, the response will contain a JSON object with 
 
 * `token`: A JSON Web Token (JWT) that can be used for authentication
 * `captain`: An object containing the newly created captain's data
-* `status`: The captain's status (active)
+* `status`: The captain's status (active{Default})
 * `vehicle`: An object containing the vehicle's information
 
 ```json
