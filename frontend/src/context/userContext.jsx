@@ -8,12 +8,11 @@ const userContext = ({children}) => {
 
     const [user, setUser] = useState({
         fullName: { firstName: "", lastName: "" },
-        email: "",
-        password: "",   
+        email: ""
     });
   return (
     <div>
-        <userDataContext.Provider value={[user, setUser]}>
+        <userDataContext.Provider value={{user, setUser}}>
         {children}
         </userDataContext.Provider>
     </div>

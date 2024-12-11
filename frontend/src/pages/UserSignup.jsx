@@ -1,6 +1,8 @@
 import React from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import {userDataContext} from "../context/userContext";
 
 const UserSignup = () => {
   const [email, setEmail] = useState("");
@@ -8,14 +10,32 @@ const UserSignup = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [userData, setUserData] = useState({});
-  const submitHandler = (e) => {
+
+  
+
+  const { user, setUser } = React.useContext(userDataContext);
+  const navigate = useNavigate();
+  const submitHandler = async (e) => {
     e.preventDefault();
-    setUserData({
-      fullName: { firstName: firstName, lastName: lastName },
+    const newUser = {
+      fullname: { firstname: firstName, lastname: lastName },
       email: email,
       password: password,
-    });
-    console.log(userData);
+    };
+
+    const res = await axios.post(
+      `${import.meta.env.VITE_BASE_URL}/users/register`,
+      newUser
+    );
+
+    if (res.status === 201) {
+      const data = res.data;
+      
+      setUser(data.user);
+      localStorage.setItem("token", data.token);
+      navigate("/home");
+    }
+
     setEmail("");
     setPassword("");
     setFirstName("");
@@ -44,7 +64,7 @@ const UserSignup = () => {
 
             <input
               type="text"
-              required
+            
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
               className="bg-[#eeeeee] rounded px-4 py-2  border w-1/2 font-medium text-base placeholder:test-sm"
