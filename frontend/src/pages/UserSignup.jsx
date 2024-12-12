@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import {userDataContext} from "../context/userContext";
+import { userDataContext } from "../context/UserContext";
 
 const UserSignup = () => {
   const [email, setEmail] = useState("");
@@ -10,8 +10,6 @@ const UserSignup = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [userData, setUserData] = useState({});
-
-  
 
   const { user, setUser } = React.useContext(userDataContext);
   const navigate = useNavigate();
@@ -30,7 +28,7 @@ const UserSignup = () => {
 
     if (res.status === 201) {
       const data = res.data;
-      
+
       setUser(data.user);
       localStorage.setItem("token", data.token);
       navigate("/home");
@@ -64,7 +62,6 @@ const UserSignup = () => {
 
             <input
               type="text"
-            
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
               className="bg-[#eeeeee] rounded px-4 py-2  border w-1/2 font-medium text-base placeholder:test-sm"

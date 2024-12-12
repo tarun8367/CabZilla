@@ -1,6 +1,6 @@
-import React, { useState ,useContext} from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import { userDataContext } from "../context/userContext";
+import { userDataContext } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -12,10 +12,9 @@ const UserLogin = () => {
   const { user, setUser } = useContext(userDataContext);
   const navigate = useNavigate();
 
-
   const submitHandler = async (e) => {
     e.preventDefault();
-    
+
     const userData = { email: email, password: password };
     const res = await axios.post(
       `${import.meta.env.VITE_BASE_URL}/users/login`,
@@ -33,7 +32,6 @@ const UserLogin = () => {
     setEmail("");
     setPassword("");
   };
-
 
   return (
     <div className="p-7 h-screen flex flex-col justify-between">
@@ -76,7 +74,10 @@ const UserLogin = () => {
         </p>
       </div>
       <div>
-        <Link to="/captain-login" className="bg-[#10b461] text-white flex justify-center items-center font-semibold mb-5 rounded px-4 py-2 w-full font-medium text-base placeholder:test-sm">
+        <Link
+          to="/captain-login"
+          className="bg-[#10b461] text-white flex justify-center items-center font-semibold mb-5 rounded px-4 py-2 w-full font-medium text-base placeholder:test-sm"
+        >
           Sign in as Captain
         </Link>
       </div>
