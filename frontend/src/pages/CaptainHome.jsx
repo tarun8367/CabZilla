@@ -1,10 +1,12 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useContext, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 import CaptainDetails from '../components/CaptainDetails'
 import RidePopUp from '../components/RidePopUp'
 import ConfirmRidePopUp from '../components/ConfirmRidePopUp';
+import { SocketContext } from '../context/SocketContext';
+import { captainDataContext } from '../context/CaptainContext';
 
 const CaptainHome = () => {
 
@@ -14,7 +16,40 @@ const CaptainHome = () => {
     const ridePopUpPanelRef = useRef(null)
     const confirmRidePopUpPanelRef = useRef(null)
 
+    const { socket } = useContext(SocketContext)
+    const { captain } = useContext(captainDataContext)
 
+    useEffect(() => {
+        socket.emit('join', {
+            userId: captain._id,
+            userType: 'captain'
+        })
+        const updateLocation = () => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {
+
+                    console.log({userId: captain._id,location:{ltd:position.coords.latitude,lng:position.coords.longitude}})
+
+                    socket.emit('update-location-captain', {
+                        userId: captain._id,
+                        location: {
+                            ltd: position.coords.latitude,
+                            lng: position.coords.longitude
+                        }
+                    })
+                })
+            }
+        }
+
+        const locationInterval = setInterval(updateLocation, 10000)
+        updateLocation()
+
+        // return () => clearInterval(locationInterval)
+    }, [])
+
+    socket.on('new-ride', (data) => {
+        console.log(data)
+    })
 
 
     useGSAP(
@@ -63,7 +98,7 @@ const CaptainHome = () => {
                 <CaptainDetails />
             </div>
             <div className='fixed w-full z-10 bottom-0 translate-y-full  bg-white px-3 py-10 pt-12' ref={ridePopUpPanelRef}>
-                <RidePopUp setRidePopUpPanel={setRidePopUpPanel} setConfirmRidePopUpPanel={setConfirmRidePopUpPanel}/>
+                <RidePopUp setRidePopUpPanel={setRidePopUpPanel} setConfirmRidePopUpPanel={setConfirmRidePopUpPanel} />
             </div>
             <div className='fixed w-full z-10 h-screen bottom-0 translate-y-full  bg-white px-3 py-10 pt-12' ref={confirmRidePopUpPanelRef}>
                 <ConfirmRidePopUp setRidePopUpPanel={setRidePopUpPanel} setConfirmRidePopUpPanel={setConfirmRidePopUpPanel} />
